@@ -72,25 +72,23 @@ class HomeScreen extends GetWidget<HomeScreenController> {
                         top: getSize(150, context),
                         width: MediaQuery.of(context).size.width,
                         child: Center(
-                          child: Obx(
-                            () => CircularCountDownTimer(
-                              textFormat: CountdownTextFormat.HH_MM_SS,
-                              // autoStart: true,
-                              textStyle: TextStyle(
-                                  color: const Color(0xff440000),
-                                  fontSize: getFontSize(30, context),
-                                  fontWeight: FontWeight.bold),
-                              duration: controller.differanceIOnSeconds.value,
-                              initialDuration: 0,
-                              width: MediaQuery.of(context).size.width / 2,
-                              height: MediaQuery.of(context).size.height / 2,
-                              ringColor: const Color(0xffFFEBCA),
-                              fillColor: const Color(0xffFF9F00),
-                              backgroundColor: const Color(0xffFFFCF7),
-                              strokeCap: StrokeCap.round,
-                              strokeWidth: getSize(12, context),
-                              controller: controller.countDownController,
-                            ),
+                          child: CircularCountDownTimer(
+                            textFormat: CountdownTextFormat.HH_MM_SS,
+                            textStyle: TextStyle(
+                                color: const Color(0xff440000),
+                                fontSize: getFontSize(30, context),
+                                fontWeight: FontWeight.bold),
+                            duration: controller.differanceIOnSeconds.value,
+                            initialDuration: 0,
+                            width: MediaQuery.of(context).size.width / 2,
+                            height: MediaQuery.of(context).size.height / 2,
+                            ringColor: const Color(0xffFFEBCA),
+                            fillColor: const Color(0xffFF9F00),
+                            backgroundColor: const Color(0xffFFFCF7),
+                            strokeCap: StrokeCap.round,
+                            strokeWidth: getSize(12, context),
+                            isReverse: true,
+                            controller: controller.countDownController,
                           ),
                         ),
                       ),
@@ -278,7 +276,94 @@ class HomeScreen extends GetWidget<HomeScreenController> {
                             Expanded(
                               child: Container(
                                 height: getSize(90, context),
-                                color: const Color(0xffFFEED1),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xffFFEED1),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: getSize(10, context),
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              "24",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize:
+                                                      getFontSize(40, context),
+                                                  color:
+                                                      const Color(0xff440000)),
+                                            ),
+                                            Text(
+                                              "Hover",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize:
+                                                      getFontSize(14, context),
+                                                  color:
+                                                      const Color(0xff440000)),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: getSize(10, context),
+                                        ),
+                                        Row(
+                                          children: [
+                                            FittedBox(
+                                              child: Text(
+                                                "${DateFormat("dd/MM/yyyy").format(controller.currentTime.value.add(const Duration(days: 1)))}, ${DateFormat("h:mm a").format(DateTime(controller.currentTime.value.year, controller.currentTime.value.month, controller.currentTime.value.day, controller.selectedTime.value.hour, controller.selectedTime.value.minute))}",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize:
+                                                      getFontSize(16, context),
+                                                  color:
+                                                      const Color(0xff440000),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: getSize(15, context),
+                                            ),
+                                            Text(
+                                              "To",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize:
+                                                    getFontSize(16, context),
+                                                color: Color(0xff440000)
+                                                    .withOpacity(0.6),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: getSize(15, context),
+                                            ),
+                                            FittedBox(
+                                              child: Text(
+                                                "${DateFormat("dd/MM/yyyy").format(controller.currentTime.value)}, ${DateFormat("h:mm a").format(controller.currentTime.value)}",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize:
+                                                      getFontSize(16, context),
+                                                  color:
+                                                      const Color(0xff440000),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],

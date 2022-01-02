@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:technical_task/Routes/app_routes.dart';
 import 'package:technical_task/Screens/LoginScreen/Controller/login_screen_controller.dart';
 import 'package:technical_task/Utils/math_utils.dart';
+import 'package:technical_task/Utils/progress_dialog_utils.dart';
 
 class LoginScreen extends GetWidget<LoginScreenController> {
   @override
@@ -108,6 +109,7 @@ class LoginScreen extends GetWidget<LoginScreenController> {
                     width: MediaQuery.of(context).size.width,
                     child: InkWell(
                       onTap: () async {
+                        ProgressDialogUtils.showProgressDialog();
                         Map<String, dynamic> dict = {};
                         UserCredential userCredential =
                             await signInWithGoogle();
@@ -124,8 +126,11 @@ class LoginScreen extends GetWidget<LoginScreenController> {
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
                         prefs.setString(
-                            'UserName', dict["Name"].toString().trim());
-                        Get.toNamed(AppRoutes.homeScreen);
+                            'UserName2', dict["Name"].toString().trim());
+                        Get.snackbar(
+                            "Welcome to Sun-Dance", "Log in successfully");
+                        ProgressDialogUtils.hideProgressDialog();
+                        Get.offNamed(AppRoutes.homeScreen);
                       },
                       child: Container(
                         alignment: Alignment.center,

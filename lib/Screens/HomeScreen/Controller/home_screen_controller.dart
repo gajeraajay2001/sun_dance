@@ -1,10 +1,13 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:technical_task/Screens/LoginScreen/Controller/login_screen_controller.dart';
 
 class HomeScreenController extends GetxController {
   CountDownController countDownController = CountDownController();
+  late final DocumentReference documentReferencer;
   final selectedIndex = 0.obs;
   final currentTime = DateTime.now().obs;
   final endingTime = TimeOfDay.now().obs;
@@ -23,12 +26,13 @@ class HomeScreenController extends GetxController {
 
   @override
   void onInit() async {
-    await flutterLocalNotificationsPlugin.show(
-        12345,
-        "Welcome to SUN DANCE",
-        "This notification was sent using Flutter Local Notifcations Package",
-        platformChannelSpecifics,
-        payload: 'data');
+    // await flutterLocalNotificationsPlugin.show(
+    //     12345,
+    //     "Welcome to SUN DANCE",
+    //     "This notification was sent using Flutter Local Notifcations Package",
+    //     platformChannelSpecifics,
+    //     payload: 'data');
+
     super.onInit();
   }
 
@@ -54,6 +58,17 @@ class HomeScreenController extends GetxController {
           selectedTime.value.minute);
       differanceIOnSeconds.value =
           endingDateTime.value.difference(currentTime.value).inSeconds;
+      if (differanceIOnSeconds.value < 0) {
+        differanceIOnSeconds.value = 0;
+        buttonStatus.value = false;
+        Get.snackbar("Please Try again", "Invalid Time");
+      } else {
+        Map<String, dynamic> dict = {};
+        await documentReferencer
+            .set(dict)
+            .whenComplete(() => print("Notes item added to the database"))
+            .catchError((e) => print(e));
+      }
     }
   }
 
